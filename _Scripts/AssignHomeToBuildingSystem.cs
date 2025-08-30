@@ -7,8 +7,6 @@ using Game.City;
 
 namespace Game.Citizens
 {
-    // A NpcCitizenHome.Building-et a legközelebbi Building entitásra állítja be.
-    // Ezt csak egyszer kell lefuttatni, amikor a polgár létrejön.
     [BurstCompile]
     [UpdateInGroup(typeof(InitializationSystemGroup))]
     public partial struct AssignHomeToBuildingSystem : ISystem
