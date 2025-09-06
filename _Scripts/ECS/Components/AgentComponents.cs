@@ -1,6 +1,17 @@
 using Unity.Entities;
-public float3 LastVelocity;
-public float MaxSpeed;
+using Unity.Mathematics;
+public struct NPCTag : IComponentData { }
+
+
+public struct MoveSpeed : IComponentData { public float Value; }
+public struct TurnSpeed : IComponentData { public float Value; }
+
+
+public struct Steering : IComponentData
+{
+    public float3 DesiredVelocity;
+    public float3 LastVelocity;
+    public float MaxSpeed;
 }
 
 
