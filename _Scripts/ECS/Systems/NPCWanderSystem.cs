@@ -1,9 +1,11 @@
+// ---------------------------------------------
+// FILE: Scripts/ECS/Systems/NPCWanderSystem.cs
+// ---------------------------------------------
 using Unity.Burst;
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Transforms;
 using DOTSGame.Components;
-
 
 namespace DOTSGame.Systems
 {
@@ -13,10 +15,7 @@ namespace DOTSGame.Systems
     {
         [BurstCompile]
         public void OnCreate(ref SystemState state)
-        {
-            state.RequireForUpdate<WorldBounds>();
-        }
-
+        { state.RequireForUpdate<WorldBounds>(); }
 
         static float3 RandomDir(uint seed)
         {
@@ -26,27 +25,20 @@ namespace DOTSGame.Systems
             return d;
         }
 
-
         [BurstCompile]
         public void OnUpdate(ref SystemState state)
         {
-            var dt = SystemAPI.Time.DeltaTime;
+            float dt = SystemAPI.Time.DeltaTime;
             var bounds = SystemAPI.GetSingleton<WorldBounds>();
             var half = bounds.Size * 0.5f;
 
-
             foreach (var (lt, tgt) in SystemAPI.Query<RefRO<LocalTransform>, RefRW<AgentTarget>>().WithAll<NPCTag>())
             {
-                var at = tgt.ValueRW;
-                at.RepathTimer -= dt;
-
-
+                var at = tgt.ValueRW; at.RepathTimer -= dt;
                 bool needNew = false;
-                var pos = lt.ValueRO.Position;
-                var to = at.Position - pos; to.y = 0;
+                var pos = lt.ValueRO.Position; var to = at.Position - pos; to.y = 0;
                 if (math.lengthsq(to) <= at.Radius * at.Radius) needNew = true;
                 if (at.RepathTimer <= 0f) needNew = true;
-
 
                 if (needNew)
                 {
@@ -60,8 +52,6 @@ namespace DOTSGame.Systems
                     at.Position = candidate;
                     at.RepathTimer = at.RepathCooldown;
                 }
-
-
                 tgt.ValueRW = at;
             }
         }

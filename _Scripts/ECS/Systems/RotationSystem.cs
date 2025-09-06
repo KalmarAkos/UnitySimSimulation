@@ -7,7 +7,6 @@ using Unity.Mathematics;
 using Unity.Transforms;
 using DOTSGame.Components;
 
-
 namespace DOTSGame.Systems
 {
     [BurstCompile]
@@ -26,9 +25,7 @@ namespace DOTSGame.Systems
                 if (math.lengthsq(v) > 1e-4f)
                 {
                     var rot = quaternion.LookRotationSafe(v, up);
-                    var cur = lt.ValueRO;
-                    cur.Rotation = rot;
-                    lt.ValueRW = cur;
+                    var cur = lt.ValueRO; cur.Rotation = rot; lt.ValueRW = cur;
                 }
             }
         }

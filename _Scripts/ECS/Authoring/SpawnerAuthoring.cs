@@ -1,8 +1,10 @@
+// ---------------------------------------------
+// FILE: Scripts/ECS/Authoring/SpawnerAuthoring.cs
+// ---------------------------------------------
 using Unity.Entities;
 using Unity.Mathematics;
 using UnityEngine;
 using DOTSGame.Components;
-
 
 namespace DOTSGame.Authoring
 {
@@ -11,12 +13,10 @@ namespace DOTSGame.Authoring
         [Header("NPC Prefab (Entity)")]
         public GameObject npcPrefab;
 
-
         [Header("Count & Area")]
         public int count = 1000;
         public float2 areaSize = new float2(1000, 1000);
         public float spawnY = 1f;
-
 
         class Baker : Baker<SpawnerAuthoring>
         {

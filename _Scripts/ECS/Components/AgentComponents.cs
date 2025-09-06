@@ -1,6 +1,3 @@
-// ---------------------------------------------
-// FILE: Scripts/ECS/Components/AgentComponents.cs
-// ---------------------------------------------
 using Unity.Entities;
 using Unity.Mathematics;
 
@@ -8,6 +5,13 @@ namespace DOTSGame.Components
 {
     public struct PlayerTag : IComponentData { }
     public struct NPCTag : IComponentData { }
+
+    // ÚJ: az inputot ez a komponens tartalmazza
+    public struct ControlInput : IComponentData
+    {
+        public float2 Move; // x=AD, y=WS
+        public byte Jump; // 1 = most megnyomva
+    }
 
     public struct MoveSpeed : IComponentData { public float Value; }
     public struct TurnSpeed : IComponentData { public float Value; }
@@ -40,27 +44,22 @@ namespace DOTSGame.Components
 
     public struct Grounding : IComponentData
     {
-        public float RayLength;
+        public float RayLength; // lefelé ray hossza
+        public float Offset;    // talajtól való függõleges offset (kapszula félmagasság)
     }
 
     public struct JumpData : IComponentData
     {
-        public float Gravity;
-        public float JumpImpulse;
-        public float VerticalSpeed;
-        public byte IsGrounded;
+        public float Gravity;       // NEGATÍV érték!
+        public float JumpImpulse;   // kezdõ fel sebesség
+        public float VerticalSpeed; // aktuális Y sebesség
+        public byte IsGrounded;    // 0/1
     }
 
     public struct WorldBounds : IComponentData
     {
         public float2 Size;   // pl. (1000,1000)
-        public float BaseY;  // alapszint (pl. Terrain baseline)
-    }
-
-    public struct InputSingleton : IComponentData
-    {
-        public float2 Move;  // x=Horizontal (A/D), y=Vertical (W/S)
-        public byte Jump;  // egyszeri leütés
+        public float BaseY;  // alapszint
     }
 
     public struct NPCSpawner : IComponentData
